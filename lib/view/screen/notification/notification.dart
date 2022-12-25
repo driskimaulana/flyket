@@ -10,7 +10,7 @@ class Notification extends StatefulWidget {
 class _NotificationState extends State<Notification> {
   @override
   Widget build(BuildContext context) {
-    // PAKE LIST VIEW BUILDER,
+    // PAKE LIST VIEW BUILDER
 
     return Container();
   }

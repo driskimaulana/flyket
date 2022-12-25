@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flyket/model/schedule/search_scheadule.dart';
+import 'package:flyket/view/screen/choose_schedule/choose_schedule.dart';
+import 'package:flyket/view/screen/home/home_screen.dart';
+import 'package:flyket/view/screen/passanger_form/passanger_form.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,10 +16,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.cyan,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: const HomeScreen(),
+      home: PassangerForm(),
+      // home: ChooseSchedule(
+      //   searchFlight: new SearchScheadule(
+      //       fromAirport: "Jakarta",
+      //       toAirport: "Bangkok",
+      //       passanger: 3,
+      //       departureDate: "2022-12-30",
+      //       seatClass: "Business"),
+      // ),
     );
   }
 }

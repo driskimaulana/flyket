@@ -43,6 +43,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  dropdown_button2:
+    dependency: "direct main"
+    description:
+      name: dropdown_button2
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.9.2"
+  dropdownfield2:
+    dependency: "direct main"
+    description:
+      name: dropdownfield2
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.7"
   fake_async:
     dependency: transitive
     description:
@@ -67,6 +81,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.18.0"
   lints:
     dependency: transitive
     description:
@@ -158,3 +179,4 @@ packages:
     version: "2.1.2"
 sdks:
   dart: ">=2.18.0 <3.0.0"
+  flutter: ">=3.0.0"
