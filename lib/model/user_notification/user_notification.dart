@@ -23,7 +23,8 @@ class UserNotificationObj {
         title: json['title'],
         message: json['message'],
         isRead: json['is_read'],
-        createdAt: json['createdAt']);
+        createdAt:
+            json['createdAt'].toString().replaceAll("T", " ").substring(0, 19));
   }
 
   static Future<List<UserNotificationObj>> getUserNotifications() async {

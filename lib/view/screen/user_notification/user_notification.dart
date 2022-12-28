@@ -18,9 +18,6 @@ class _UserNotificationState extends State<UserNotification> {
   void initState() {
     super.initState();
     UserNotificationObj.getUserNotifications().then((values) {
-      // for (int i = 0; i < values.length; i++) {
-      //   userNotifications.add(values[i]);
-      // }
       userNotifications = values;
       setState(() {});
     });
