@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flyket/main.dart';
+import 'package:flyket/model/user_notification/user_notification.dart';
 
 class UserNotification extends StatefulWidget {
   const UserNotification({super.key});
@@ -11,6 +11,20 @@ class UserNotification extends StatefulWidget {
 class _UserNotificationState extends State<UserNotification> {
   final mainColor = const Color(0xff02929A);
   final secondColor = const Color.fromARGB(158, 117, 161, 163);
+
+  late List<UserNotificationObj> userNotifications = [];
+
+  @override
+  void initState() {
+    super.initState();
+    UserNotificationObj.getUserNotifications().then((values) {
+      // for (int i = 0; i < values.length; i++) {
+      //   userNotifications.add(values[i]);
+      // }
+      userNotifications = values;
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,21 +54,31 @@ class _UserNotificationState extends State<UserNotification> {
               ),
               Row(
                 children: [
-                  const Icon(
-                    Icons.notifications,
-                    color: Colors.white,
+                  IconButton(
+                    onPressed: (() {
+                      print("Close notification");
+                    }),
+                    icon: const Icon(
+                      Icons.notifications,
+                      color: Colors.white,
+                    ),
                   ),
                   const SizedBox(
                     width: 10,
                   ),
-                  CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    child: Image.asset(
-                      "assets/images/profile.png",
-                      width: 30,
-                      height: 30,
+                  GestureDetector(
+                    child: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      child: Image.asset(
+                        "assets/images/profile.png",
+                        width: 30,
+                        height: 30,
+                      ),
                     ),
-                  )
+                    onTap: () {
+                      print("Open profile");
+                    },
+                  ),
                 ],
               )
             ],
@@ -92,7 +116,9 @@ class _UserNotificationState extends State<UserNotification> {
               Container(
                 padding: EdgeInsets.all(5),
                 width: MediaQuery.of(context).size.width,
-                color: Color.fromARGB(255, 211, 219, 223),
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 211, 219, 223),
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -100,25 +126,42 @@ class _UserNotificationState extends State<UserNotification> {
                       "Unread First",
                       style: TextStyle(fontSize: 10, color: Colors.black54),
                     ),
-                    Text(
-                      "Mark All As Read",
-                      style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w500,
-                          color: Color.fromARGB(221, 214, 16, 2)),
-                    )
+                    GestureDetector(
+                        onTap: () {
+                          UserNotificationObj.readAllNotifications()
+                              .then((value) {
+                            if (value == true) {
+                              UserNotificationObj.getUserNotifications()
+                                  .then((values) {
+                                userNotifications = values;
+                              });
+                            } else {
+                              print("Read all notification failed");
+                            }
+                            setState(() {});
+                          });
+                        },
+                        child: Text(
+                          "Mark All As Read",
+                          style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                              color: Color.fromARGB(160, 255, 20, 3)),
+                        )),
                   ],
                 ),
               ),
               ListView.builder(
-                itemCount: 10,
+                itemCount: userNotifications.length,
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 itemBuilder: ((context, index) {
                   return Container(
                     padding: EdgeInsets.all(5),
                     decoration: BoxDecoration(
-                        color: Color.fromARGB(250, 250, 250, 250),
+                        color: (userNotifications[index].isRead == true
+                            ? Colors.white
+                            : Color.fromARGB(245, 245, 240, 250)),
                         border: Border(
                             bottom: BorderSide(
                                 color: Colors.blueGrey, width: 0.5))),
@@ -146,18 +189,18 @@ class _UserNotificationState extends State<UserNotification> {
                                 runSpacing: 4,
                                 children: [
                                   Text(
-                                    "Payment successful!",
+                                    userNotifications[index].title,
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500),
                                   ),
                                   Text(
-                                    "Thank you. Payment of IDR 5,000,000 for transaction A-123-T123 via BNI has been successful.",
+                                    userNotifications[index].message,
                                     style: TextStyle(
                                         fontSize: 12, color: Colors.black87),
                                   ),
                                   Text(
-                                    "2022-12-27 13:50:58",
+                                    userNotifications[index].createdAt,
                                     style: TextStyle(
                                         fontSize: 10, color: Colors.black45),
                                   ),

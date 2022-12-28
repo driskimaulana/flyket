@@ -42,20 +42,30 @@ class _TransactionHistoryState extends State<TransactionHistory> {
               ),
               Row(
                 children: [
-                  const Icon(
-                    Icons.notifications,
-                    color: Colors.white,
+                  IconButton(
+                    onPressed: (() {
+                      print("Open notification");
+                    }),
+                    icon: const Icon(
+                      Icons.notifications,
+                      color: Colors.white,
+                    ),
                   ),
                   const SizedBox(
                     width: 10,
                   ),
-                  CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    child: Image.asset(
-                      "assets/images/profile.png",
-                      width: 30,
-                      height: 30,
+                  GestureDetector(
+                    child: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      child: Image.asset(
+                        "assets/images/profile.png",
+                        width: 30,
+                        height: 30,
+                      ),
                     ),
+                    onTap: () {
+                      print("Open profile");
+                    },
                   ),
                 ],
               )
