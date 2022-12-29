@@ -26,36 +26,33 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final dateCtr = TextEditingController();
 
+  late int from;
+
   @override
   void initState() {
     super.initState();
-
-    Provider.of<AirportListViewModel>(context, listen: false).fetchAirports();
-
     dateCtr.text = "";
     fromCtr.text = "";
     toCtr.text = "";
     noPassangerCtr.text = "";
   }
 
-  List<String> cities = [
-    "Jakarta",
-    "Tokyo",
-    "Casablanca",
-    "New York",
-    "Bandung",
-    "Bali",
-    "Los Angeles",
-    "Bangkok",
-    "Kuala Lumpur",
-    "Singapore"
-  ];
-
   List<String> seatClasses = ["Economy", "Business", "First"];
   String seatClassSelected = "Economy";
 
   @override
   Widget build(BuildContext context) {
+    var lvm = context.read<AirportListViewModel>();
+
+    // get list of airport name
+    List<dynamic> cities =
+        lvm.airports.map((e) => "${e.citi} - ${e.name}").toList();
+
+    // get list of airport id
+    List<dynamic> ids = lvm.airports.map(((e) => e.id)).toList();
+
+    log("lvm: " + lvm.airports.length.toString());
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mainColor,
@@ -145,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 labelText: "From",
                 hintText: "From",
                 items: cities,
-                value: cities[0],
+                value: ids,
                 strict: true,
                 itemsVisibleInDropdown: 2,
                 icon: const Icon(
@@ -169,12 +166,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 hintText: "To",
                 itemsVisibleInDropdown: 2,
                 items: cities,
-                value: cities[0],
+                value: ids,
                 strict: true,
                 icon: const Icon(
                   Icons.flight_land,
                 ),
-                setter: (newValue) {},
+                setter: (newValue) {
+                  toCtr.text = newValue;
+                },
               ),
             ),
             const SizedBox(
@@ -278,6 +277,8 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 40,
               child: ElevatedButton(
                 onPressed: () {
+                  var arr = toCtr.text.split("|");
+                  log("toctr: " + arr.toString());
                   SearchScheadule search = SearchScheadule(
                     fromAirport: fromCtr.text,
                     toAirport: toCtr.text,
