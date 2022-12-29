@@ -48,7 +48,7 @@ class TransactionHistoryObj {
         toAirportCode: json['tickets'][0]['schedule']['toAirport']['code'],
         departureTime: json['tickets'][0]['schedule']['departure_time'],
         arrivalTime: json['tickets'][0]['schedule']['arrival_time'],
-        travelType: (json['round_trip'] == true ? 'round trip' : 'one way'),
+        travelType: (json['round_trip'] == true ? 'Round Trip' : 'One Way'),
         adultPass: json['adult'],
         childPass: json['child'],
         price: json['total_cost'],
