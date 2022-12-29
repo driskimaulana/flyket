@@ -35,12 +35,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.cyan,
       ),
+
       // home: const HomeScreen(),
       // home: PassangerForm(),
       // home: const Onboarding(),
       // home: const SplashScreen(),
       home: const SplashScreen(),
-
       // home: ChooseSchedule(
       //   searchFlight: new SearchScheadule(
       //       fromAirport: "Jakarta",
