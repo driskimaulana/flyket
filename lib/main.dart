@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 import 'package:flyket/view/screen/user_notification/user_notification.dart';
 import 'package:flyket/view/screen/passanger_form/passanger_form.dart';
+
 import 'package:flyket/view/screen/transaction_history/transaction_history.dart';
 
 
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
