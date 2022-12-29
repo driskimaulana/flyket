@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flyket/model/schedule/search_scheadule.dart';
 import 'package:flyket/view/screen/choose_schedule/choose_schedule.dart';
 import 'package:flyket/view/screen/home/home_screen.dart';
+import 'package:flyket/view/screen/login/login.dart';
 import 'package:flyket/view/screen/passanger_form/passanger_form.dart';
+import 'package:flyket/view/screen/register/register.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,8 +22,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.cyan,
       ),
-      // home: const HomeScreen(),
-      home: PassangerForm(),
+      home: RegisterPage(),
+      // home: PassangerForm(),
       // home: ChooseSchedule(
       //   searchFlight: new SearchScheadule(
       //       fromAirport: "Jakarta",
