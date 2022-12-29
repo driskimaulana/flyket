@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:http/http.dart' as http;
 
 class UserNotificationObj {
@@ -23,8 +22,7 @@ class UserNotificationObj {
         title: json['title'],
         message: json['message'],
         isRead: json['is_read'],
-        createdAt:
-            json['createdAt'].toString().replaceAll("T", " ").substring(0, 19));
+        createdAt: json['createdAt']);
   }
 
   static Future<List<UserNotificationObj>> getUserNotifications() async {

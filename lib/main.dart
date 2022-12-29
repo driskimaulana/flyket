@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.cyan,
       ),
       // home: const HomeScreen(),
-      home: UserNotification(),
+      home: TransactionHistory(),
       // home: ChooseSchedule(
       //   searchFlight: new SearchScheadule(
       //       fromAirport: "Jakarta",

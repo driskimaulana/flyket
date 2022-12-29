@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flyket/main.dart';
+import 'package:flyket/model/transaction_history/transaction_history.dart';
+import 'package:flyket/view/utils/date_format.dart';
+import 'package:flyket/view/utils/currency_format.dart';
 
 class TransactionHistory extends StatefulWidget {
   const TransactionHistory({super.key});
@@ -11,6 +13,17 @@ class TransactionHistory extends StatefulWidget {
 class _TransactionHistoryState extends State<TransactionHistory> {
   final mainColor = const Color(0xff02929A);
   final secondColor = const Color.fromARGB(158, 117, 161, 163);
+
+  late List<TransactionHistoryObj> transactions = [];
+
+  @override
+  void initState() {
+    super.initState();
+    TransactionHistoryObj.getTransactions().then((values) {
+      transactions = values;
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +118,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                   ],
                 )),
             ListView.builder(
-              itemCount: 5,
+              itemCount: transactions.length,
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               itemBuilder: ((BuildContext context, int index) {
@@ -135,7 +148,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                                   color: mainColor,
                                 ),
                                 Text(
-                                  " GA-123",
+                                  " ${transactions[index].flightNo}",
                                   style: TextStyle(
                                       fontSize: 16,
                                       color: mainColor,
@@ -158,9 +171,10 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("LC4STNMD-YH6E03F699M"),
+                                Text(transactions[index].invoiceNumber),
                                 Text(
-                                  "2022-12-26 12:51:51",
+                                  DateFormat.convertToDate(
+                                      transactions[index].transactionTime),
                                   style: TextStyle(fontSize: 12),
                                 ),
                               ],
@@ -172,11 +186,13 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "CGK",
+                                      transactions[index].fromAirportCode,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500),
                                     ),
-                                    Text("2023-01-15 08:00:00",
+                                    Text(
+                                        DateFormat.convertToDate(
+                                            transactions[index].departureTime),
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500)),
                                   ],
@@ -188,11 +204,13 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      "HND",
+                                      transactions[index].toAirportCode,
                                       style: TextStyle(
                                           fontWeight: FontWeight.w500),
                                     ),
-                                    Text("2023-01-15 12:00:00",
+                                    Text(
+                                        DateFormat.convertToDate(
+                                            transactions[index].arrivalTime),
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500)),
                                   ],
@@ -202,16 +220,19 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Round Trip",
+                                Text(transactions[index].travelType,
                                     style: TextStyle(fontSize: 12)),
-                                Text("2 Dewasa, 1 Anak",
+                                Text(
+                                    "${transactions[index].adultPass} Dewasa, ${transactions[index].childPass} Anak",
                                     style: TextStyle(fontSize: 12)),
                               ],
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Text("Rp40.000.000,00",
+                                Text(
+                                    CurrencyFormat.convertToIdr(
+                                        transactions[index].price, 2),
                                     style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500)),

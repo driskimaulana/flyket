@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flyket/model/user_notification/user_notification.dart';
+import 'package:flyket/view/utils/date_format.dart';
 
 class UserNotification extends StatefulWidget {
   const UserNotification({super.key});
@@ -197,7 +198,8 @@ class _UserNotificationState extends State<UserNotification> {
                                         fontSize: 12, color: Colors.black87),
                                   ),
                                   Text(
-                                    userNotifications[index].createdAt,
+                                    DateFormat.convertToDate(
+                                        userNotifications[index].createdAt),
                                     style: TextStyle(
                                         fontSize: 10, color: Colors.black45),
                                   ),
