@@ -6,6 +6,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:dropdownfield2/dropdownfield2.dart';
 import 'package:flutter/material.dart';
 import 'package:flyket/model/schedule/search_scheadule.dart';
+import 'package:flyket/view/screen/choose_schedule/choose_schedule.dart';
 import 'package:flyket/viewmodel/airport_viewmodel.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +24,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final fromCtr = TextEditingController();
   final toCtr = TextEditingController();
   final noPassangerCtr = TextEditingController();
+
+  int noPassanger = 0;
 
   final dateCtr = TextEditingController();
 
@@ -54,52 +57,52 @@ class _HomeScreenState extends State<HomeScreen> {
     log("lvm: " + lvm.airports.length.toString());
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: mainColor,
-        title: Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Image.asset(
-                    "assets/images/logo.png",
-                    height: 30,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const Text(
-                    "Flyket",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  const Icon(
-                    Icons.notifications,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    child: Image.asset(
-                      "assets/images/profile.png",
-                      width: 30,
-                      height: 30,
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: mainColor,
+      //   title: Container(
+      //     child: Row(
+      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //       children: [
+      //         Row(
+      //           children: [
+      //             Image.asset(
+      //               "assets/images/logo.png",
+      //               height: 30,
+      //             ),
+      //             const SizedBox(
+      //               width: 10,
+      //             ),
+      //             const Text(
+      //               "Flyket",
+      //               style: TextStyle(
+      //                 color: Colors.white,
+      //               ),
+      //             ),
+      //           ],
+      //         ),
+      //         Row(
+      //           children: [
+      //             const Icon(
+      //               Icons.notifications,
+      //               color: Colors.white,
+      //             ),
+      //             const SizedBox(
+      //               width: 10,
+      //             ),
+      //             CircleAvatar(
+      //               backgroundColor: Colors.transparent,
+      //               child: Image.asset(
+      //                 "assets/images/profile.png",
+      //                 width: 30,
+      //                 height: 30,
+      //               ),
+      //             ),
+      //           ],
+      //         )
+      //       ],
+      //     ),
+      //   ),
+      // ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -130,10 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(
-              height: 20,
-            ),
-            const SizedBox(
-              height: 20,
+              height: 10,
             ),
             SizedBox(
               width: 300,
@@ -192,7 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
                   setState(() {
-                    noPassangerCtr.text = value;
+                    noPassanger = int.parse(value);
                   });
                 },
               ),
@@ -279,13 +279,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   var arr = toCtr.text.split("|");
                   log("toctr: " + arr.toString());
+                  log("noPass: " + noPassanger.toString());
                   SearchScheadule search = SearchScheadule(
                     fromAirport: fromCtr.text,
                     toAirport: toCtr.text,
-                    passanger: int.parse(noPassangerCtr.text),
+                    fromAirportCode: "BMH",
+                    toAirportCode: "JKT",
+                    passanger: noPassanger,
                     seatClass: seatClassSelected,
                     departureDate: dateCtr.text,
                   );
+
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ChooseSchedule(searchFlight: search)));
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(mainColor),

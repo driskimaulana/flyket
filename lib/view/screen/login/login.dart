@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   static const nameRoute = '/homepage';
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final mainColor = const Color(0xff02929A);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -121,34 +128,59 @@ class LoginPage extends StatelessWidget {
                                 style: TextButton.styleFrom(
                                   foregroundColor: Colors.white,
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pushNamedAndRemoveUntil(
+                                          "/homeScreen", (route) => false);
+                                },
                                 child: const Text('Login'),
                               ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                    alignment: Alignment.center,
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: const Text(
-                                      "Don't have any account in Flyket?",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w400),
-                                    )),
-                                Container(
-                                  alignment: Alignment.center,
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: TextButton(
-                                    style: TextButton.styleFrom(
-                                      foregroundColor: Color(0xff02929A),
-                                    ),
-                                    onPressed: () {},
-                                    child: const Text('Register'),
-                                  ),
+                            Container(
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.only(top: 10),
+                                child: const Text(
+                                  "Don't have any account in Flyket?",
+                                  style: TextStyle(fontWeight: FontWeight.w400),
+                                )),
+                            Container(
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.only(top: 10),
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Color(0xff02929A),
                                 ),
-                              ],
+                                onPressed: () {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pushNamed("/register");
+                                },
+                                child: const Text('Register'),
+                              ),
                             ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     Container(
+                            //         alignment: Alignment.center,
+                            //         padding: const EdgeInsets.only(top: 10),
+                            //         child: const Text(
+                            //           "Don't have any account in Flyket?",
+                            //           style: TextStyle(
+                            //               fontWeight: FontWeight.w400),
+                            //         )),
+                            //     Container(
+                            //       alignment: Alignment.center,
+                            //       padding: const EdgeInsets.only(top: 10),
+                            //       child: TextButton(
+                            //         style: TextButton.styleFrom(
+                            //           foregroundColor: Color(0xff02929A),
+                            //         ),
+                            //         onPressed: () {},
+                            //         child: const Text('Register'),
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
                           ],
                         ),
                       )),

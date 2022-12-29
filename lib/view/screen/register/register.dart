@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
   static const nameRoute = '/homepage';
+
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
   final mainColor = const Color(0xff02929A);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -145,30 +152,51 @@ class RegisterPage extends StatelessWidget {
                                 child: const Text('Register'),
                               ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                    alignment: Alignment.center,
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: const Text(
-                                      "Already have an acoount in Flyket?",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w400),
-                                    )),
-                                Container(
-                                  alignment: Alignment.center,
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: TextButton(
-                                    style: TextButton.styleFrom(
-                                      foregroundColor: Color(0xff02929A),
-                                    ),
-                                    onPressed: () {},
-                                    child: const Text('Login'),
-                                  ),
+                            Container(
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.only(top: 10),
+                                child: const Text(
+                                  "Already have an acoount in Flyket?",
+                                  style: TextStyle(fontWeight: FontWeight.w400),
+                                )),
+                            Container(
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.only(top: 2),
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Color(0xff02929A),
                                 ),
-                              ],
+                                onPressed: () {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pushNamed("/login");
+                                },
+                                child: const Text('Login'),
+                              ),
                             ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.center,
+                            //   children: [
+                            //     Container(
+                            //         alignment: Alignment.center,
+                            //         padding: const EdgeInsets.only(top: 10),
+                            //         child: const Text(
+                            //           "Already have an acoount in Flyket?",
+                            //           style: TextStyle(
+                            //               fontWeight: FontWeight.w400),
+                            //         )),
+                            //     Container(
+                            //       alignment: Alignment.center,
+                            //       padding: const EdgeInsets.only(top: 10),
+                            //       child: TextButton(
+                            //         style: TextButton.styleFrom(
+                            //           foregroundColor: Color(0xff02929A),
+                            //         ),
+                            //         onPressed: () {},
+                            //         child: const Text('Login'),
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
                           ],
                         ),
                       )),

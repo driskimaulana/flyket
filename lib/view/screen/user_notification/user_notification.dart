@@ -30,57 +30,52 @@ class _UserNotificationState extends State<UserNotification> {
 
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
         backgroundColor: mainColor,
-        title: Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Image.asset(
-                    "assets/images/logo.png",
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Image.asset(
+                  "assets/images/logo.png",
+                  height: 30,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                const Text(
+                  "Flyket",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
+                    Icons.notifications,
+                    color: Colors.white,
+                  ),
+                ),
+                CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  child: Image.asset(
+                    "assets/images/profile.png",
+                    width: 30,
                     height: 30,
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const Text(
-                    "FlyTicket",
-                    style: TextStyle(color: Colors.white),
-                  )
-                ],
-              ),
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: (() {
-                      print("Close notification");
-                    }),
-                    icon: const Icon(
-                      Icons.notifications,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  GestureDetector(
-                    child: CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      child: Image.asset(
-                        "assets/images/profile.png",
-                        width: 30,
-                        height: 30,
-                      ),
-                    ),
-                    onTap: () {
-                      print("Open profile");
-                    },
-                  ),
-                ],
-              )
-            ],
-          ),
+                ),
+              ],
+            )
+          ],
         ),
       ),
       body: SingleChildScrollView(

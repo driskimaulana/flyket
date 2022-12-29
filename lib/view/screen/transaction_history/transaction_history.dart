@@ -30,93 +30,93 @@ class _TransactionHistoryState extends State<TransactionHistory> {
     // PAKE LIST VIEW BUILDER
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: mainColor,
-        title: Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Image.asset(
-                    "assets/images/logo.png",
-                    height: 30,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const Text(
-                    "FlyTicket",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  )
-                ],
-              ),
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: (() {
-                      print("Open notification");
-                    }),
-                    icon: const Icon(
-                      Icons.notifications,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  GestureDetector(
-                    child: CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      child: Image.asset(
-                        "assets/images/profile.png",
-                        width: 30,
-                        height: 30,
-                      ),
-                    ),
-                    onTap: () {
-                      print("Open profile");
-                    },
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: mainColor,
+      //   title: Container(
+      //     child: Row(
+      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //       children: [
+      //         Row(
+      //           children: [
+      //             Image.asset(
+      //               "assets/images/logo.png",
+      //               height: 30,
+      //             ),
+      //             const SizedBox(
+      //               width: 10,
+      //             ),
+      //             const Text(
+      //               "FlyTicket",
+      //               style: TextStyle(
+      //                 color: Colors.white,
+      //               ),
+      //             )
+      //           ],
+      //         ),
+      //         Row(
+      //           children: [
+      //             IconButton(
+      //               onPressed: (() {
+      //                 print("Open notification");
+      //               }),
+      //               icon: const Icon(
+      //                 Icons.notifications,
+      //                 color: Colors.white,
+      //               ),
+      //             ),
+      //             const SizedBox(
+      //               width: 10,
+      //             ),
+      //             GestureDetector(
+      //               child: CircleAvatar(
+      //                 backgroundColor: Colors.transparent,
+      //                 child: Image.asset(
+      //                   "assets/images/profile.png",
+      //                   width: 30,
+      //                   height: 30,
+      //                 ),
+      //               ),
+      //               onTap: () {
+      //                 print("Open profile");
+      //               },
+      //             ),
+      //           ],
+      //         )
+      //       ],
+      //     ),
+      //   ),
+      // ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-                margin: EdgeInsets.all(10),
-                padding: EdgeInsets.all(10),
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                          color: secondColor,
-                          blurRadius: 1.5,
-                          offset: Offset(0, 1))
-                    ]),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Transaction History",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      "Shows all your transaction history in order from the newest",
-                      style: TextStyle(fontSize: 12),
-                    )
-                  ],
-                )),
+              margin: EdgeInsets.all(10),
+              padding: EdgeInsets.all(10),
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                        color: secondColor,
+                        blurRadius: 1.5,
+                        offset: Offset(0, 1))
+                  ]),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Transaction History",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                  Text(
+                    "Shows all your transaction history in order from the newest",
+                    style: TextStyle(fontSize: 12),
+                  )
+                ],
+              ),
+            ),
             ListView.builder(
               itemCount: transactions.length,
               shrinkWrap: true,

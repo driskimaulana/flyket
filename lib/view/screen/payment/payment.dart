@@ -1,9 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-main() {
-  runApp(Payment());
-}
+import 'package:flyket/view/screen/main_navigation.dart';
 
 class Payment extends StatefulWidget {
   const Payment({super.key});
@@ -22,11 +18,16 @@ class _PaymentState extends State<Payment> {
     "OVO"
   ];
 
+  int activePayment = -1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mainColor,
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
         title: Container(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -50,12 +51,14 @@ class _PaymentState extends State<Payment> {
               ),
               Row(
                 children: [
-                  const Icon(
-                    Icons.notifications,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(
-                    width: 10,
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/notifications");
+                    },
+                    icon: const Icon(
+                      Icons.notifications,
+                      color: Colors.white,
+                    ),
                   ),
                   CircleAvatar(
                     backgroundColor: Colors.transparent,
@@ -96,19 +99,44 @@ class _PaymentState extends State<Payment> {
                   );
                 } else {
                   return Padding(
-                    padding: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(5),
                     child: Card(
-                      child: Row(
-                        children: [
-                          Text(paymentMethod[index - 2]),
-                          Expanded(child: Text(" ")),
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Container(
-                              child: Icon(Icons.arrow_forward_ios),
+                      color: activePayment == index
+                          ? Color(0xff02929A)
+                          : Colors.white,
+                      child: TextButton(
+                        onPressed: () {
+                          setState(() {
+                            activePayment = index;
+                          });
+                        },
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 15,
                             ),
-                          ),
-                        ],
+                            Text(
+                              paymentMethod[index - 2],
+                              style: TextStyle(
+                                color: activePayment == index
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
+                            ),
+                            Expanded(child: Text(" ")),
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Container(
+                                child: Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: activePayment == index
+                                      ? Colors.white
+                                      : Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
@@ -120,7 +148,7 @@ class _PaymentState extends State<Payment> {
               padding: const EdgeInsets.all(10),
               child: Card(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
@@ -130,18 +158,26 @@ class _PaymentState extends State<Payment> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Penerbangan",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                          const Padding(
+                            padding: EdgeInsets.only(
+                              left: 10,
+                            ),
+                            child: Text(
+                              "Penerbangan",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
                             children: const [
+                              SizedBox(
+                                width: 10,
+                              ),
                               Text(
                                 "Jakarta",
                                 style: TextStyle(
@@ -195,6 +231,37 @@ class _PaymentState extends State<Payment> {
                           ),
                         ],
                       ),
+                    ),
+                    SizedBox(
+                      width: 300,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(mainColor),
+                        ),
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MainNavigation(index: 1),
+                              ),
+                              (route) => false);
+                          // Navigator.pushAndRemoveUntil(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => MainNavigation(index: 1),
+                          //   ),
+                          // );
+                        },
+                        child: const Text(
+                          "Submit",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                   ],
                 ),
