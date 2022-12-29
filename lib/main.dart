@@ -5,9 +5,16 @@ import 'package:flyket/view/screen/home/home_screen.dart';
 import 'package:flyket/view/screen/onboarding/Onboarding.dart';
 import 'package:flyket/view/screen/passanger_form/passanger_form.dart';
 import 'package:flyket/view/screen/splashScreen/splash_screen.dart';
+import 'package:flyket/viewmodel/airport_viewmodel.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => AirportListViewModel()),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -25,7 +32,9 @@ class MyApp extends StatelessWidget {
       // home: const HomeScreen(),
       // home: PassangerForm(),
       // home: const Onboarding(),
+      // home: const SplashScreen(),
       home: const SplashScreen(),
+
       // home: ChooseSchedule(
       //   searchFlight: new SearchScheadule(
       //       fromAirport: "Jakarta",

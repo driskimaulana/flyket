@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flyket/view/screen/onboarding/Onboarding.dart';
+import 'package:flyket/viewmodel/airport_viewmodel.dart';
+import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,6 +15,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+
+    // Provider.of<AirportListViewModel>(context, listen: false).fetchAirports();
 
     Future.delayed(Duration(seconds: 3)).then((value) {
       Navigator.pushReplacement(
