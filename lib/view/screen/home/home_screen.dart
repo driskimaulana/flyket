@@ -6,7 +6,9 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:dropdownfield2/dropdownfield2.dart';
 import 'package:flutter/material.dart';
 import 'package:flyket/model/schedule/search_scheadule.dart';
+import 'package:flyket/viewmodel/airport_viewmodel.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,6 +29,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+
+    Provider.of<AirportListViewModel>(context, listen: false).fetchAirports();
+
     dateCtr.text = "";
     fromCtr.text = "";
     toCtr.text = "";
