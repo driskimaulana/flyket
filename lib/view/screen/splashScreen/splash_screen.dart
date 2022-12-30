@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    // Provider.of<AirportListViewModel>(context, listen: false).fetchAirports();
+    Provider.of<AirportListViewModel>(context, listen: false).fetchAirports();
 
     Future.delayed(Duration(seconds: 3)).then((value) {
       Navigator.pushReplacement(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flyket/model/schedule/flight.dart';
 import 'package:flyket/model/schedule/search_scheadule.dart';
+import 'package:flyket/view/screen/payment/payment.dart';
 import 'package:intl/intl.dart';
 
 class ChooseSchedule extends StatefulWidget {
@@ -47,6 +48,9 @@ class _ChooseScheduleState extends State<ChooseSchedule> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mainColor,
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
         title: Container(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,12 +74,14 @@ class _ChooseScheduleState extends State<ChooseSchedule> {
               ),
               Row(
                 children: [
-                  const Icon(
-                    Icons.notifications,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(
-                    width: 10,
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/notifications");
+                    },
+                    icon: const Icon(
+                      Icons.notifications,
+                      color: Colors.white,
+                    ),
                   ),
                   CircleAvatar(
                     backgroundColor: Colors.transparent,
@@ -128,7 +134,8 @@ class _ChooseScheduleState extends State<ChooseSchedule> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  widget.searchFlight.fromAirport,
+                                  widget.searchFlight.fromAirportCode
+                                      .toString(),
                                   style: const TextStyle(
                                     fontSize: 16,
                                   ),
@@ -138,7 +145,7 @@ class _ChooseScheduleState extends State<ChooseSchedule> {
                                   size: 13,
                                 ),
                                 Text(
-                                  widget.searchFlight.toAirport,
+                                  widget.searchFlight.toAirportCode.toString(),
                                   style: const TextStyle(
                                     fontSize: 16,
                                   ),
@@ -233,7 +240,12 @@ class _ChooseScheduleState extends State<ChooseSchedule> {
                             backgroundColor:
                                 MaterialStateProperty.all(mainColor),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Payment()));
+                          },
                           child: const Text(
                             "Submit",
                             style: TextStyle(
