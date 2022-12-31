@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flyket/model/apis/airport.dart';
 import 'package:flyket/model/services/web_services.dart';
@@ -7,6 +9,7 @@ class AirportListViewModel extends ChangeNotifier {
 
   Future<void> fetchAirports() async {
     final results = await WebServices().fetchAirportList();
+    log("results: " + results[0].toString());
     this.airports = results.map((e) => AirportViewModel(e)).toList();
     print(this.airports.length);
     notifyListeners();
