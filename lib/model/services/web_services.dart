@@ -84,7 +84,7 @@ class WebServices {
   }
 
   Future<User?> login(String email, String password) async {
-    var url = Uri.parse("${BASE_URL}auth/login");
+    var url = Uri.parse("${BASE_URL}/auth/login");
     Response response = await http.post(
       url,
       body: jsonEncode(
@@ -103,7 +103,7 @@ class WebServices {
   }
 
   Future<bool> register(String name, String email, String password) async {
-    var url = Uri.parse("${BASE_URL}auth/register");
+    var url = Uri.parse("${BASE_URL}/auth/register");
     Response response = await http.post(
       url,
       body: jsonEncode(
