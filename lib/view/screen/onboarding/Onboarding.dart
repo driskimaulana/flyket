@@ -39,7 +39,9 @@ class _OnboardingState extends State<Onboarding> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
             child: PageView.builder(
@@ -56,31 +58,32 @@ class _OnboardingState extends State<Onboarding> {
                     child: Column(
                       children: [
                         const SizedBox(
-                          height: 80,
+                          height: 40,
                         ),
                         Image.asset(
                           onBoardingItems[i].image,
-                          height: 300,
+                          height: 200,
                         ),
                         const SizedBox(
-                          height: 50,
+                          height: 30,
                         ),
                         Text(
                           onBoardingItems[i].title,
                           style: const TextStyle(
                             color: Color.fromARGB(255, 2, 114, 129),
-                            fontSize: 24,
+                            fontSize: 21,
                             fontWeight: FontWeight.bold,
                           ),
+                          textAlign: TextAlign.center,
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         Text(
                           onBoardingItems[i].subtitle,
                           style: const TextStyle(
                             color: Colors.black54,
-                            fontSize: 16,
+                            fontSize: 14,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -104,10 +107,11 @@ class _OnboardingState extends State<Onboarding> {
             child: TextButton(
               onPressed: () {
                 if (currentIndex == onBoardingItems.length - 1) {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (_) => HomeScreen()),
-                  );
+                  Navigator.pushNamed(context, "/login");
+                  // Navigator.pushReplacement(
+                  //   context,
+                  //   MaterialPageRoute(builder: (_) => HomeScreen()),
+                  // );
                 }
 
                 _pageController.nextPage(
@@ -122,7 +126,9 @@ class _OnboardingState extends State<Onboarding> {
           ),
           currentIndex == onBoardingItems.length - 1
               ? TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, "/register");
+                  },
                   child: const Text(
                     "Register",
                     style: TextStyle(
