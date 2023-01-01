@@ -9,7 +9,7 @@ class AirportListViewModel extends ChangeNotifier {
 
   Future<void> fetchAirports() async {
     final results = await WebServices().fetchAirportList();
-    log("results: " + results[0].toString());
+    log("results: ${results[0]}");
     this.airports = results.map((e) => AirportViewModel(e)).toList();
     print(this.airports.length);
     notifyListeners();
