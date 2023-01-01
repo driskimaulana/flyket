@@ -13,7 +13,6 @@ import 'package:flyket/view/screen/user_notification/user_notification.dart';
 import 'package:flyket/view/screen/passanger_form/passanger_form.dart';
 import 'package:flyket/view/screen/transaction_history/transaction_history.dart';
 
-
 void main() {
   runApp(MultiProvider(
     providers: [
@@ -39,7 +38,8 @@ class MyApp extends StatelessWidget {
       // home: PassangerForm(),
       // home: const Onboarding(),
       // home: const SplashScreen(),
-      home: const SplashScreen(),
+      // home: const SplashScreen(),
+      home: const TransactionHistory(),
 
       // home: ChooseSchedule(
       //   searchFlight: new SearchScheadule(
