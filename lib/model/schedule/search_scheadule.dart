@@ -1,20 +1,6 @@
 class SearchScheadule {
-  String fromAirport, toAirport, seatClass;
-  int passanger;
+  final String fromAirport, toAirport, seatClass, departureDate, fromAirportCode, toAirportCode;
+  int passanger, toId, fromId;
 
-  var departureDate;
-
-  var fromAirportCode;
-
-  var toAirportCode;
-
-  SearchScheadule({
-    required this.fromAirport,
-    required this.toAirport,
-    required this.fromAirportCode,
-    required this.toAirportCode,
-    required this.passanger,
-    required this.departureDate,
-    required this.seatClass,
-  });
+  SearchScheadule({required this.fromAirport, required this.toAirport, required this.seatClass, required this.departureDate, required this.passanger, required this.toId, required this.fromId, required this.fromAirportCode, required this.toAirportCode});
 }
