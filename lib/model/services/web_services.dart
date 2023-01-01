@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flyket/model/apis/airport.dart';
+import 'package:flyket/model/apis/summary.dart';
 import 'package:flyket/model/apis/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
