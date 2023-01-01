@@ -46,7 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var lvm = context.read<AirportListViewModel>();
-
     // get list of airport name
     List<dynamic> cities =
         lvm.airports.map((e) => "${e.citi} | ${e.name} | ${e.code} | ${e.id.toString()}").toList();
