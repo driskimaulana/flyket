@@ -31,7 +31,7 @@ class WebServices {
     }
   }
 
-  static Future<List<TransactionHistory>> getTransactions() async {
+  Future<List<TransactionHistory>> getAllTransactions() async {
     String endpoint = "/transaction";
 
     final response = await http
@@ -52,7 +52,7 @@ class WebServices {
     }
   }
 
-  static Future<List<Notification>> getUserNotifications() async {
+  Future<List<Notification>> getUserNotifications() async {
     String endpoint = "/notification";
 
     final response = await http
@@ -73,7 +73,7 @@ class WebServices {
     }
   }
 
-  static Future<bool> readAllNotifications() async {
+  Future<bool> readAllNotifications() async {
     String endpoint = "/notification/read-all";
 
     final response = await http
