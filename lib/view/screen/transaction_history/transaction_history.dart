@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flyket/model/transaction_history/transaction_history.dart';
 import 'package:flyket/view/screen/transaction_history/transaction_detail.dart';
 import 'package:flyket/view/utils/date_format.dart';
@@ -21,6 +22,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
   @override
   void initState() {
     super.initState();
+
     TransactionHistoryObj.getAllTransactions().then((values) {
       transactions = values;
       setState(() {});
@@ -29,7 +31,6 @@ class _TransactionHistoryState extends State<TransactionHistory> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -62,171 +63,206 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                 ],
               ),
             ),
-            ListView.builder(
-              itemCount: transactions.length,
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemBuilder: ((BuildContext context, int index) {
-                return Card(
-                    child: Container(
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(bottom: 5),
-                        padding: EdgeInsets.only(bottom: 5),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                  color: secondColor,
-                                  blurRadius: 0,
-                                  offset: Offset(0, 0.5))
-                            ]),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.flight,
-                                  color: mainColor,
-                                ),
-                                Text(
-                                  " ${transactions[index].flightNo}",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: mainColor,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ],
-                            ),
-                            Icon(
-                              Icons.more_vert,
-                              color: secondColor,
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                        child: Wrap(
-                          runSpacing: 4,
-                          children: [
-                            Row(
+            Stack(
+              children: [
+                ListView.builder(
+                  itemCount: transactions.length,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: ((BuildContext context, int index) {
+                    return Card(
+                        child: Container(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(bottom: 5),
+                            padding: EdgeInsets.only(bottom: 5),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: secondColor,
+                                      blurRadius: 0,
+                                      offset: Offset(0, 0.5))
+                                ]),
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(transactions[index].invoiceNumber),
-                                Text(
-                                  DateFormat.convertToDate(
-                                      transactions[index].transactionTime),
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                Row(
                                   children: [
-                                    Text(
-                                      transactions[index].fromAirportCode,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500),
+                                    Icon(
+                                      Icons.flight,
+                                      color: mainColor,
                                     ),
                                     Text(
-                                        DateFormat.convertToDate(
-                                            transactions[index].departureTime),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500)),
+                                      " ${transactions[index].flightNo}",
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: mainColor,
+                                          fontWeight: FontWeight.w500),
+                                    ),
                                   ],
                                 ),
-                                Column(
-                                  children: [Icon(Icons.arrow_right_alt)],
+                                Icon(
+                                  Icons.more_vert,
+                                  color: secondColor,
+                                )
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                            child: Wrap(
+                              runSpacing: 4,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(transactions[index].invoiceNumber),
+                                    Text(
+                                      DateFormat.convertToDate(
+                                          transactions[index].transactionTime),
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                  ],
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          transactions[index].fromAirportCode,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        Text(
+                                            DateFormat.convertToDate(
+                                                transactions[index]
+                                                    .departureTime),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500)),
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [Icon(Icons.arrow_right_alt)],
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          transactions[index].toAirportCode,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        Text(
+                                            DateFormat.convertToDate(
+                                                transactions[index]
+                                                    .arrivalTime),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500)),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(transactions[index].travelType,
+                                        style: TextStyle(fontSize: 12)),
+                                    Text(
+                                        "${transactions[index].adultPass} Dewasa, ${transactions[index].childPass} Anak",
+                                        style: TextStyle(fontSize: 12)),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Text(
-                                      transactions[index].toAirportCode,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Text(
-                                        DateFormat.convertToDate(
-                                            transactions[index].arrivalTime),
+                                        CurrencyFormat.convertToIdr(
+                                            transactions[index].price, 2),
                                         style: TextStyle(
+                                            fontSize: 12,
                                             fontWeight: FontWeight.w500)),
                                   ],
                                 )
                               ],
                             ),
-                            Row(
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(top: 5),
+                            margin: EdgeInsets.only(top: 5),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: secondColor,
+                                      blurRadius: 0,
+                                      offset: Offset(0, -0.5))
+                                ]),
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(transactions[index].travelType,
-                                    style: TextStyle(fontSize: 12)),
                                 Text(
-                                    "${transactions[index].adultPass} Dewasa, ${transactions[index].childPass} Anak",
-                                    style: TextStyle(fontSize: 12)),
+                                  "Active",
+                                  style: TextStyle(color: secondColor),
+                                ),
+                                InkWell(
+                                    onTap: () async {
+                                      final prefs =
+                                          await SharedPreferences.getInstance();
+                                      await prefs.setInt('transactionId',
+                                          transactions[index].id);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  TransactionHistoryDetail()));
+                                    },
+                                    child: Text("See Detail",
+                                        style: TextStyle(
+                                          color: mainColor,
+                                        )))
                               ],
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                    CurrencyFormat.convertToIdr(
-                                        transactions[index].price, 2),
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500)),
-                              ],
-                            )
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      Container(
-                        padding: EdgeInsets.only(top: 5),
-                        margin: EdgeInsets.only(top: 5),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                  color: secondColor,
-                                  blurRadius: 0,
-                                  offset: Offset(0, -0.5))
-                            ]),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    ));
+                  }),
+                ),
+                transactions.isEmpty
+                    ? Padding(
+                        padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height / 2 - 100),
+                        child: Column(
                           children: [
-                            Text(
-                              "Active",
-                              style: TextStyle(color: secondColor),
+                            const SpinKitChasingDots(
+                              size: 20,
+                              color: Colors.cyan,
                             ),
-                            InkWell(
-                                onTap: () async {
-                                  final prefs =
-                                      await SharedPreferences.getInstance();
-                                  await prefs.setInt(
-                                      'transactionId', transactions[index].id);
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              TransactionHistoryDetail()));
-                                },
-                                child: Text("See Detail",
-                                    style: TextStyle(
-                                      color: mainColor,
-                                    )))
+                            SizedBox(
+                              height: 10,
+                            ),
+                            const Text(
+                              "You don't have any transactions.",
+                              style: TextStyle(
+                                color: Colors.cyan,
+                                fontSize: 12,
+                              ),
+                            ),
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                ));
-              }),
+                      )
+                    : SizedBox(),
+              ],
             )
           ],
         ),

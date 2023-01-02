@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flyket/model/apis/user.dart';
-import 'package:flyket/model/user_profile/user_profile.dart';
 import 'package:flyket/viewmodel/user_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:restart_app/restart_app.dart';
