@@ -40,8 +40,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.cyan,
       ),
       routes: {
-        // "/": (context) => SplashScreen(),
-        "/": (context) => TransactionHistoryDetail(),
+        "/": (context) => SplashScreen(),
         "/onboarding": (context) => Onboarding(),
         "/login": (context) => LoginPage(),
         "/register": (context) => RegisterPage(),
@@ -49,6 +48,7 @@ class MyApp extends StatelessWidget {
               index: 0,
             ),
         "/transactionHistory": (context) => TransactionHistory(),
+        "/transactionHistoryDetail": (context) => TransactionHistoryDetail(),
         "/notifications": (context) => UserNotification(),
       },
       initialRoute: "/",
