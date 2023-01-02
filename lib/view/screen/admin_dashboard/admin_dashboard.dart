@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flyket/model/apis/summary.dart';
+import 'package:flyket/model/apis/user.dart';
 import 'package:flyket/view/screen/admin_dashboard/chart_number_passangers.dart';
+import 'package:flyket/view/screen/user_notification/user_notification.dart';
 import 'package:flyket/viewmodel/summary_viewmodel.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../viewmodel/user_viewmodel.dart';
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({super.key});
@@ -41,54 +46,67 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
   @override
   Widget build(BuildContext context) {
+    var uvm = context.read<UserViewModel>();
+
+    // get logged in user data from provider
+    User loggedInUser = uvm.user;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: mainColor,
         iconTheme: const IconThemeData(
           color: Colors.white,
         ),
-        backgroundColor: mainColor,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Image.asset(
-                  "assets/images/logo.png",
-                  height: 30,
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                const Text(
-                  "Flyket",
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.notifications,
-                    color: Colors.white,
-                  ),
-                ),
-                CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  child: Image.asset(
-                    "assets/images/profile.png",
-                    width: 30,
+        title: Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Image.asset(
+                    "assets/images/logo.png",
                     height: 30,
                   ),
-                ),
-              ],
-            )
-          ],
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Text(
+                    "Flyket",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      // Navigator.pushNamed(context, "/notifications");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              UserNotification(user: loggedInUser),
+                        ),
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.notifications,
+                      color: Colors.white,
+                    ),
+                  ),
+                  CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    child: Image.asset(
+                      "assets/images/profile.png",
+                      width: 30,
+                      height: 30,
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
       body: SingleChildScrollView(

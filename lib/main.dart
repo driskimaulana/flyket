@@ -59,7 +59,6 @@ class MyApp extends StatelessWidget {
             ),
         "/transactionHistory": (context) => TransactionHistory(),
         "/transactionHistoryDetail": (context) => TransactionHistoryDetail(),
-        "/notifications": (context) => UserNotification(),
         "/dashboardAdmin": (context) => AdminDashboard(),
       },
       initialRoute: "/",

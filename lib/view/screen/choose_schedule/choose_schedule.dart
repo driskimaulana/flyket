@@ -2,14 +2,17 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flyket/model/apis/user.dart';
 import 'package:flyket/model/schedule/flight.dart';
 import 'package:flyket/model/schedule/schedule.dart';
 import 'package:flyket/model/schedule/search_scheadule.dart';
 import 'package:flyket/view/screen/passanger_form/passanger_form.dart';
 import 'package:flyket/view/screen/payment/payment.dart';
+import 'package:flyket/view/screen/user_notification/user_notification.dart';
 import 'package:flyket/viewmodel/schedules_viewmodel.dart';
 import 'package:flyket/viewmodel/user_viewmodel.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChooseSchedule extends StatefulWidget {
@@ -94,6 +97,11 @@ class _ChooseScheduleState extends State<ChooseSchedule> {
     String bulan = DateFormat("MMMM").format(date);
     String tahun = DateFormat("y").format(date);
 
+    var uvm = context.read<UserViewModel>();
+
+    // get logged in user data from provider
+    User loggedInUser = uvm.user;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mainColor,
@@ -125,7 +133,14 @@ class _ChooseScheduleState extends State<ChooseSchedule> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, "/notifications");
+                      // Navigator.pushNamed(context, "/notifications");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              UserNotification(user: loggedInUser),
+                        ),
+                      );
                     },
                     icon: const Icon(
                       Icons.notifications,
