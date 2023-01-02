@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flyket/model/apis/user.dart';
 import 'package:flyket/model/schedule/search_scheadule.dart';
 import 'package:flyket/model/transactions/passanger.dart';
 import 'package:flyket/model/transactions/transanction.dart';
 import 'package:flyket/view/screen/payment/payment.dart';
+import 'package:flyket/viewmodel/user_viewmodel.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class PassangerForm extends StatefulWidget {
   SearchScheadule searchScheadule;
@@ -46,6 +49,11 @@ class PassangerFormState extends State<PassangerForm> {
     String tanggal = DateFormat("d").format(date);
     String bulan = DateFormat("MMMM").format(date);
     String tahun = DateFormat("y").format(date);
+
+    var uvm = context.read<UserViewModel>();
+
+    // get logged in user data from provider
+    User loggedInUser = uvm.user;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mainColor,
@@ -257,7 +265,7 @@ class PassangerFormState extends State<PassangerForm> {
                         backgroundColor: MaterialStateProperty.all(mainColor),
                       ),
                       onPressed: () {
-                        _handleToPayment();
+                        _handleToPayment(loggedInUser.id);
                       },
                       child: const Text(
                         "Continue to Payment",
@@ -276,7 +284,7 @@ class PassangerFormState extends State<PassangerForm> {
     );
   }
 
-  void _handleToPayment() {
+  void _handleToPayment(int userId) {
     List<Map<String, Map<String, String>>> biodataList =
         <Map<String, Map<String, String>>>[];
     for (var i = 0; i < widget.searchScheadule.passanger; i++) {
@@ -288,7 +296,7 @@ class PassangerFormState extends State<PassangerForm> {
         }
       });
     }
-    Transaction transaction = Transaction(5, [widget.scheduleId],
+    Transaction transaction = Transaction(userId, [widget.scheduleId],
         widget.searchScheadule.passanger, 0, false, biodataList);
 
     Navigator.push(

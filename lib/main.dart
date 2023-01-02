@@ -11,6 +11,7 @@ import 'package:flyket/view/screen/passanger_form/passanger_form.dart';
 import 'package:flyket/view/screen/register/register.dart';
 import 'package:flyket/view/screen/splashScreen/splash_screen.dart';
 import 'package:flyket/viewmodel/airport_viewmodel.dart';
+import 'package:flyket/viewmodel/authentication_viewmodel.dart';
 import 'package:flyket/viewmodel/user_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +27,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => AirportListViewModel()),
         ChangeNotifierProvider(create: (context) => UserViewModel()),
+        ChangeNotifierProvider(create: (context) => AuthenticationViewModel()),
       ],
       child: const MyApp(),
     ),
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flyket',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.cyan,

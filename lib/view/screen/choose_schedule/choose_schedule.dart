@@ -8,7 +8,9 @@ import 'package:flyket/model/schedule/search_scheadule.dart';
 import 'package:flyket/view/screen/passanger_form/passanger_form.dart';
 import 'package:flyket/view/screen/payment/payment.dart';
 import 'package:flyket/viewmodel/schedules_viewmodel.dart';
+import 'package:flyket/viewmodel/user_viewmodel.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChooseSchedule extends StatefulWidget {
   SearchScheadule searchSchedule;
@@ -49,11 +51,14 @@ class _ChooseScheduleState extends State<ChooseSchedule> {
   List<String> arrivalTimes = [];
 
   void fetchScheduleList() async {
+    final preferences = await SharedPreferences.getInstance();
+    final token = preferences.getString("token")!;
     final results = await ScheduleListViewModel().fetchScheduleList(
         widget.searchSchedule.departureDate,
         widget.searchSchedule.fromId,
         widget.searchSchedule.toId,
-        widget.searchSchedule.passanger);
+        widget.searchSchedule.passanger,
+        token);
     setState(() {
       schedules = results;
       for (var i = 0; i < schedules!.length; i++) {

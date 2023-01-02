@@ -7,6 +7,7 @@ import 'package:flyket/model/apis/user.dart';
 import 'package:flyket/viewmodel/authentication_viewmodel.dart';
 import 'package:flyket/viewmodel/login_viewmodel.dart';
 import 'package:flyket/viewmodel/user_viewmodel.dart';
+import 'package:restart_app/restart_app.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -249,7 +250,9 @@ class _LoginPageState extends State<LoginPage> {
     if (loggedinUser != null) {
       final prefs = await SharedPreferences.getInstance();
       prefs.setString("token", loggedinUser.token);
-      UserViewModel().setLoggedinUser(loggedinUser);
+      await UserViewModel().whoAmI(loggedinUser.token);
+      // Restart.restartApp(webOrigin: "/");
+      // UserViewModel().setLoggedinUser(loggedinUser);
       Navigator.of(context, rootNavigator: true)
           .pushNamedAndRemoveUntil("/homeScreen", (route) => false);
     } else {

@@ -88,6 +88,9 @@ class _TransactionHistoryDetailState extends State<TransactionHistoryDetail> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mainColor,
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
         title: Container(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,39 +105,31 @@ class _TransactionHistoryDetailState extends State<TransactionHistoryDetail> {
                     width: 10,
                   ),
                   const Text(
-                    "FlyTicket",
+                    "Flyket",
                     style: TextStyle(
                       color: Colors.white,
                     ),
-                  )
+                  ),
                 ],
               ),
               Row(
                 children: [
                   IconButton(
-                    onPressed: (() {
-                      print("Open notification");
-                    }),
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/notifications");
+                    },
                     icon: const Icon(
                       Icons.notifications,
                       color: Colors.white,
                     ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  GestureDetector(
-                    child: CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      child: Image.asset(
-                        "assets/images/profile.png",
-                        width: 30,
-                        height: 30,
-                      ),
+                  CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    child: Image.asset(
+                      "assets/images/profile.png",
+                      width: 30,
+                      height: 30,
                     ),
-                    onTap: () {
-                      print("Open profile");
-                    },
                   ),
                 ],
               )
