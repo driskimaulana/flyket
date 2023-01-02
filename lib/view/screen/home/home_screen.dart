@@ -47,8 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     var lvm = context.read<AirportListViewModel>();
     // get list of airport name
-    List<dynamic> cities =
-        lvm.airports.map((e) => "${e.citi} | ${e.name} | ${e.code} | ${e.id.toString()}").toList();
+    List<dynamic> cities = lvm.airports
+        .map((e) => "${e.citi} | ${e.name} | ${e.code} | ${e.id.toString()}")
+        .toList();
 
     // get list of airport id
     List<dynamic> ids = lvm.airports.map(((e) => e.id)).toList();
@@ -266,9 +267,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
     log("search: ${search.fromAirport.toString()}");
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                ChooseSchedule(searchFlight: search),),);
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChooseSchedule(searchSchedule: search),
+      ),
+    );
   }
 }
