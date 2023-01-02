@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flyket/model/transaction_history/transaction_history.dart';
 import 'package:flyket/view/utils/date_format.dart';
 import 'package:flyket/view/utils/currency_format.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TransactionHistoryDetail extends StatefulWidget {
   const TransactionHistoryDetail({super.key});
@@ -15,7 +17,8 @@ class _TransactionHistoryDetailState extends State<TransactionHistoryDetail> {
   final mainColor = const Color(0xff02929A);
   final secondColor = const Color.fromARGB(158, 117, 161, 163);
 
-  var transactionId = 1;
+  int transactionId = 1;
+  late SharedPreferences prefs;
 
   late TransactionHistoryObj transaction = TransactionHistoryObj(
       id: 1,
@@ -50,12 +53,31 @@ class _TransactionHistoryDetailState extends State<TransactionHistoryDetail> {
         'email': ''
       });
 
-  @override
-  void initState() {
-    TransactionHistoryObj.getTransactionDetail(transactionId).then((value) {
+  // void getTransactionId() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   transactionId = await prefs.getInt('transactionId') as int;
+  //   setState(() {});
+  // }
+
+  void getDetailData() async {
+    // getTransactionId();
+    await TransactionHistoryObj.getTransactionDetail(transactionId)
+        .then((value) {
       transaction = value;
       setState(() {});
     });
+  }
+
+  @override
+  void initState() {
+    SharedPreferences.getInstance().then((value) async {
+      prefs = value;
+      transactionId = await prefs.getInt('transactionId') as int;
+      transaction =
+          await TransactionHistoryObj.getTransactionDetail(transactionId);
+      setState(() {});
+    });
+    setState(() {});
     super.initState();
   }
 
@@ -330,10 +352,17 @@ class _TransactionHistoryDetailState extends State<TransactionHistoryDetail> {
                                   : 'Active'),
                               style: TextStyle(color: secondColor),
                             ),
-                            Text("Download Ticket",
-                                style: TextStyle(
-                                  color: mainColor,
-                                ))
+                            InkWell(
+                              onTap: () {
+                                var url =
+                                    transaction.tickets[index]['ticket_pdf'];
+                                launchURL(url);
+                              },
+                              child: Text("Download Ticket",
+                                  style: TextStyle(
+                                    color: mainColor,
+                                  )),
+                            ),
                           ],
                         ),
                       ),
@@ -346,5 +375,14 @@ class _TransactionHistoryDetailState extends State<TransactionHistoryDetail> {
         ),
       ),
     );
+  }
+
+  void launchURL(String urlStr) async {
+    Uri url = Uri.parse(urlStr);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      throw "Couldn't launch $url";
+    }
   }
 }
