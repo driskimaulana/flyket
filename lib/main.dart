@@ -46,7 +46,6 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         "/": (context) => SplashScreen(),
-        // "/": (context) => TransactionHistoryDetail(),
         "/onboarding": (context) => Onboarding(),
         "/login": (context) => LoginPage(),
         "/register": (context) => RegisterPage(),
@@ -57,6 +56,7 @@ class MyApp extends StatelessWidget {
               index: 1,
             ),
         "/transactionHistory": (context) => TransactionHistory(),
+        "/transactionHistoryDetail": (context) => TransactionHistoryDetail(),
         "/notifications": (context) => UserNotification(),
         "/dashboardAdmin": (context) => AdminDashboard(),
       },

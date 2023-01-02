@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flyket/model/transaction_history/transaction_history.dart';
+import 'package:flyket/view/screen/transaction_history/transaction_detail.dart';
 import 'package:flyket/view/utils/date_format.dart';
 import 'package:flyket/view/utils/currency_format.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TransactionHistory extends StatefulWidget {
   const TransactionHistory({super.key});
@@ -202,10 +204,22 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                               "Active",
                               style: TextStyle(color: secondColor),
                             ),
-                            Text("See Detail",
-                                style: TextStyle(
-                                  color: mainColor,
-                                ))
+                            InkWell(
+                                onTap: () async {
+                                  final prefs =
+                                      await SharedPreferences.getInstance();
+                                  await prefs.setInt(
+                                      'transactionId', transactions[index].id);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              TransactionHistoryDetail()));
+                                },
+                                child: Text("See Detail",
+                                    style: TextStyle(
+                                      color: mainColor,
+                                    )))
                           ],
                         ),
                       ),
