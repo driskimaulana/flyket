@@ -149,51 +149,76 @@ class WebServices {
     }
   }
 
-  Future<bool> createTransaction(Transaction transaction) async {
+  Future<bool> createTransaction(Transaction transaction, String token) async {
     final url = Uri.parse("$BASE_URL/transaction");
     log(url.toString());
-
+    final test = [
+      {
+        "body": {
+          "email": "sekarmadukusumawardani@gmail.com",
+          "name": "Sekar Testing Biodata 1",
+          "nik": "1234567887654321",
+          "birth_place": "Banjarnegara",
+          "birth_date": "2002-07-03",
+          "telp": "081234567890",
+          "nationality": 1,
+          "no_passport": "A9601796",
+          "issue_date": "2014-11-17",
+          "expire_date": "2019-11-17"
+        }
+      }
+    ];
+    log(test.toString());
     try {
       final Response response = await http.post(
         url,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization':
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6Ik1hZHUgS3VzdW1hd2FyZGFuaSIsImVtYWlsIjoic2VrYXJtYWR1QHVwaS5lZHUiLCJwYXNzd29yZCI6IiQyYiQxMCRBZkFOaFdWVDdiZ25YSHJFbTBvT1dlS3RQQjBILy9aLk1UdHh3M1lqektYOFBNOVlYZTRKSyIsImF2YXRhcl9pZCI6MSwicm9sZSI6InVzZXIiLCJiYWxhbmNlIjoxMDAwMDAwMCwiYmlvZGF0YV9pZCI6MywibG9naW5fdHlwZSI6ImJhc2ljIiwiaWF0IjoxNjcxNDQ1NzM4fQ.iFwbPUifSdOPR9GLKGvreEhcY4fViOHXMMV2dhEfpHM",
+          'Authorization': token,
         },
         body: jsonEncode(<String, dynamic>{
           "user_id": transaction.userId,
           "schedule_id": transaction.scheduleId,
           "adult": transaction.adult,
           "child": transaction.child,
-          "roundtrip": false,
-          "biodataList": [
-            {
-              "body": {
-                "email": "sekarmadukusumawardani@gmail.com",
-                "name": "Sekar Testing Biodata 1",
-                "nik": "1234567887654321",
-                "birth_place": "Banjarnegara",
-                "birth_date": "2002-07-03",
-                "telp": "081234567890",
-                "nationality": 1,
-                "no_passport": "A9601796",
-                "issue_date": "2014-11-17",
-                "expire_date": "2019-11-17"
-              }
-            }
-          ]
+          "round_trip": false,
+          "biodataList": transaction.biodataList,
           // "biodataList": [
           //   {
           //     "body": {
+          //       "email": "sekarmadukusumawardani@gmail.com",
           //       "name": "Sekar Testing Biodata 1",
           //       "nik": "1234567887654321",
+          //       "birth_place": "Banjarnegara",
+          //       "birth_date": "2002-07-03",
           //       "telp": "081234567890",
+          //       "nationality": 1,
+          //       "no_passport": "A9601796",
+          //       "issue_date": "2014-11-17",
+          //       "expire_date": "2019-11-17"
           //     }
           //   }
           // ]
+          // "biodataList": [
+          //   {
+          //     "body": {
+          //       "name": "zaki kurniawan",
+          //       "nik": "6402062706010002",
+          //       "telp": "081233550322"
+          //     }
+          //   },
+          //   {
+          //     "body": {
+          //       "name": "zaki kurniawan",
+          //       "nik": "6402062706010002",
+          //       "telp": "081233550322",
+          //     }
+          //   },
+          // ]
         }),
       );
+      final test = jsonDecode(response.body);
+      log(test["message"]);
       log(response.statusCode.toString());
       if (response.statusCode == 201) {
         final body = jsonDecode(response.body);
@@ -206,24 +231,27 @@ class WebServices {
       log(e.toString());
       throw Exception("Fail");
     }
+  }
 
-    // final Response response = await http.post(
-    //   url,
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Authorization':
-    //         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibmFtZSI6Ik1hZHUgS3VzdW1hd2FyZGFuaSIsImVtYWlsIjoic2VrYXJtYWR1QHVwaS5lZHUiLCJwYXNzd29yZCI6IiQyYiQxMCRBZkFOaFdWVDdiZ25YSHJFbTBvT1dlS3RQQjBILy9aLk1UdHh3M1lqektYOFBNOVlYZTRKSyIsImF2YXRhcl9pZCI6MSwicm9sZSI6InVzZXIiLCJiYWxhbmNlIjoxMDAwMDAwMCwiYmlvZGF0YV9pZCI6MywibG9naW5fdHlwZSI6ImJhc2ljIiwiaWF0IjoxNjcxNDQ1NzM4fQ.iFwbPUifSdOPR9GLKGvreEhcY4fViOHXMMV2dhEfpHM",
-    //   },
-    //   body: jsonEncode(transaction),
-    // );
+  Future<User> whoAmI(String token) async {
+    final url = Uri.parse("$BASE_URL/auth/whoami");
+    final Response response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token,
+      },
+    );
 
-    // log(response.statusCode.toString());
-    // if (response.statusCode == 201) {
-    //   final body = jsonDecode(response.body);
-    //   return true;
-    // } else {
-    //   throw Exception("Unable to fetch schedule.");
-    //   return false;
-    // }
+    log("whoami: ${response.statusCode}");
+
+    if (response.statusCode == 200) {
+      var body = jsonDecode(response.body);
+      body["data"]["token"] = token;
+      log("body: ${body.toString()}");
+      return User.fromJson(body["data"]);
+    } else {
+      throw Exception("Failed get data");
+    }
   }
 }

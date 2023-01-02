@@ -2,11 +2,14 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flyket/model/apis/user.dart';
 import 'package:flyket/model/schedule/search_scheadule.dart';
 import 'package:flyket/model/transactions/transanction.dart';
 import 'package:flyket/view/screen/main_navigation.dart';
 import 'package:flyket/viewmodel/transaction_viewmodel.dart';
+import 'package:flyket/viewmodel/user_viewmodel.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class Payment extends StatefulWidget {
   Transaction transaction;
@@ -41,6 +44,11 @@ class _PaymentState extends State<Payment> {
     String tanggal = DateFormat("d").format(date);
     String bulan = DateFormat("MMMM").format(date);
     String tahun = DateFormat("y").format(date);
+
+    var uvm = context.read<UserViewModel>();
+
+    // get logged in user data from provider
+    User loggedInUser = uvm.user;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mainColor,
@@ -262,7 +270,7 @@ class _PaymentState extends State<Payment> {
                           backgroundColor: MaterialStateProperty.all(mainColor),
                         ),
                         onPressed: () {
-                          _handlePay();
+                          _handlePay(loggedInUser.token);
                         },
                         child: const Text(
                           "Pay",
@@ -282,21 +290,17 @@ class _PaymentState extends State<Payment> {
     );
   }
 
-  void _handlePay() async {
+  void _handlePay(String token) async {
     log(widget.transaction.biodataList.toString());
-    final isSuccess =
-        await TransactionViewModel().createTransaction(widget.transaction);
+    final isSuccess = await TransactionViewModel()
+        .createTransaction(widget.transaction, token);
     if (isSuccess) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          // builder: (context) => Payment(),
-          builder: (context) => MainNavigation(index: 1),
-        ),
-      );
+      // Navigator.of(context).pushNamedAndRemoveUntil(
+      //     "/homeScreen2", (Route<dynamic> route) => false);
+
     } else {
       Fluttertoast.showToast(
-          msg: "Failed to Pay",
+          msg: "Failed to Pay. Not Enough Balance",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           backgroundColor: Colors.cyan);
