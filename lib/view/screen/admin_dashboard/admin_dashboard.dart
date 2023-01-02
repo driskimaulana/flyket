@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flyket/model/apis/summary.dart';
 import 'package:flyket/view/screen/admin_dashboard/chart_number_passangers.dart';
+import 'package:flyket/viewmodel/summary_viewmodel.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AdminDashboard extends StatefulWidget {
   const AdminDashboard({super.key});
@@ -14,6 +17,18 @@ class _AdminDashboardState extends State<AdminDashboard> {
   final mainColor = const Color(0xff02929A);
 
   late List<Summary> summaries = [];
+
+  Future<Null> checkIsLoggedin() async {
+    final preferences = await SharedPreferences.getInstance();
+    final token = preferences.getString("token");
+    if (token != null) {
+      final response = await SummaryListViewModel().fetchSummary(token);
+
+      setState(() {
+        summaries = response;
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -124,72 +139,84 @@ class _AdminDashboardState extends State<AdminDashboard> {
               ),
               padding: EdgeInsets.only(bottom: 10, left: 20),
             ),
-            Container(
-              padding: EdgeInsets.all(20),
-              child: FittedBox(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        Container(
-                          child: Text(
-                            'summaries[0].name',
-                            style: TextStyle(
-                                color: Color(0xff02929A),
-                                fontWeight: FontWeight.bold),
+            summaries.length != 0
+                ? Container(
+                    padding: EdgeInsets.all(20),
+                    child: FittedBox(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Column(
+                            children: [
+                              Container(
+                                child: Text(
+                                  summaries[0].name,
+                                  style: TextStyle(
+                                      color: Color(0xff02929A),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                padding: EdgeInsets.only(right: 5),
+                              )
+                            ],
                           ),
-                          padding: EdgeInsets.only(right: 5),
-                        )
-                      ],
+                          Column(
+                            children: [
+                              Container(
+                                child: Text(
+                                  summaries[1].name,
+                                  style: TextStyle(
+                                      color: Color(0xff02929A),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                padding: EdgeInsets.only(bottom: 5),
+                              ),
+                              Container(
+                                  child: CustomPaint(
+                                painter: ChartPassenger(
+                                  posX: 10,
+                                  posY: 10,
+                                  gleft: summaries[0].buyer,
+                                  gtop: summaries[1].buyer,
+                                  gright: summaries[4].buyer,
+                                  gbottom: summaries[2].buyer,
+                                ),
+                                child: Container(
+                                  width: 400,
+                                  height: 400,
+                                ),
+                              )),
+                              Container(
+                                child: Text(
+                                  summaries[2].name,
+                                  style: TextStyle(
+                                      color: Color(0xff02929A),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                padding: EdgeInsets.only(top: 5),
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Container(
+                                child: Text(
+                                  summaries[3].name,
+                                  style: TextStyle(
+                                      color: Color(0xff02929A),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                padding: EdgeInsets.only(left: 5),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
                     ),
-                    Column(
-                      children: [
-                        Container(
-                          child: Text(
-                            'summaries[1].name',
-                            style: TextStyle(
-                                color: Color(0xff02929A),
-                                fontWeight: FontWeight.bold),
-                          ),
-                          padding: EdgeInsets.only(bottom: 5),
-                        ),
-                        Container(
-                            child: CustomPaint(
-                          painter: ChartPassenger(posX: 10, posY: 10),
-                          child: Container(
-                            width: 400,
-                            height: 400,
-                          ),
-                        )),
-                        Container(
-                          child: Text(
-                            'summaries[2].name',
-                            style: TextStyle(
-                                color: Color(0xff02929A),
-                                fontWeight: FontWeight.bold),
-                          ),
-                          padding: EdgeInsets.only(top: 5),
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Container(
-                          child: Text(
-                            'summaries[3].name',
-                            style: TextStyle(
-                                color: Color(0xff02929A),
-                                fontWeight: FontWeight.bold),
-                          ),
-                          padding: EdgeInsets.only(left: 5),
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ),
+                  )
+                : const SpinKitChasingDots(
+                    size: 20,
+                    color: Colors.cyan,
+                  ),
           ],
         ),
       ),

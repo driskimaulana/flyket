@@ -250,11 +250,11 @@ class _LoginPageState extends State<LoginPage> {
     if (loggedinUser != null) {
       final prefs = await SharedPreferences.getInstance();
       prefs.setString("token", loggedinUser.token);
-      await UserViewModel().whoAmI(loggedinUser.token);
+      // await UserViewModel().whoAmI(loggedinUser.token);
       // Restart.restartApp(webOrigin: "/");
       // UserViewModel().setLoggedinUser(loggedinUser);
       Navigator.of(context, rootNavigator: true)
-          .pushNamedAndRemoveUntil("/homeScreen", (route) => false);
+          .pushNamedAndRemoveUntil("/", (route) => false);
     } else {
       Fluttertoast.showToast(
           msg: "Login Failed. Try again later!",

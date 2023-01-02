@@ -13,6 +13,13 @@ class Summary {
       income: json['income'],
     );
   }
+  factory Summary.fromJson(Map<String, dynamic> json) {
+    return Summary(
+      name: json['name'],
+      buyer: json['buyer'],
+      income: json['income'],
+    );
+  }
 
   static Future<List<Summary>> fetchSummary() async {
     var url =
