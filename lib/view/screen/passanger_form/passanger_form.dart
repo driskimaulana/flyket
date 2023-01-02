@@ -1,7 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flyket/model/schedule/search_scheadule.dart';
+import 'package:flyket/model/transactions/passanger.dart';
+import 'package:flyket/model/transactions/transanction.dart';
+import 'package:flyket/view/screen/payment/payment.dart';
+import 'package:intl/intl.dart';
 
 class PassangerForm extends StatefulWidget {
-  const PassangerForm({super.key});
+  SearchScheadule searchScheadule;
+  int scheduleId, cost;
+
+  PassangerForm(
+      {super.key,
+      required this.searchScheadule,
+      required this.scheduleId,
+      required this.cost});
 
   @override
   State<PassangerForm> createState() => PassangerFormState();
@@ -10,11 +22,36 @@ class PassangerForm extends StatefulWidget {
 class PassangerFormState extends State<PassangerForm> {
   final mainColor = const Color(0xff02929A);
 
+  List<Passanger> passangersData = <Passanger>[];
+
+  List<TextEditingController> telpCtrs = <TextEditingController>[];
+  List<TextEditingController> nameCtrs = <TextEditingController>[];
+  List<TextEditingController> nikCtrs = <TextEditingController>[];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    for (var i = 0; i < widget.searchScheadule.passanger; i++) {
+      telpCtrs.add(TextEditingController());
+      nikCtrs.add(TextEditingController());
+      nameCtrs.add(TextEditingController());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    var date = DateTime.parse(widget.searchScheadule.departureDate);
+    String day = DateFormat("EEEE").format(date);
+    String tanggal = DateFormat("d").format(date);
+    String bulan = DateFormat("MMMM").format(date);
+    String tahun = DateFormat("y").format(date);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mainColor,
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
         title: Container(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -38,12 +75,14 @@ class PassangerFormState extends State<PassangerForm> {
               ),
               Row(
                 children: [
-                  const Icon(
-                    Icons.notifications,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(
-                    width: 10,
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/notifications");
+                    },
+                    icon: const Icon(
+                      Icons.notifications,
+                      color: Colors.white,
+                    ),
                   ),
                   CircleAvatar(
                     backgroundColor: Colors.transparent,
@@ -65,7 +104,7 @@ class PassangerFormState extends State<PassangerForm> {
           // crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             ListView.builder(
-              itemCount: 3,
+              itemCount: widget.searchScheadule.passanger,
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               itemBuilder: (BuildContext context, int index) {
@@ -86,12 +125,50 @@ class PassangerFormState extends State<PassangerForm> {
                         width: 300,
                         height: 60,
                         child: TextField(
+                          controller: nikCtrs[index],
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             // icon: Icon(Icons.people),
-                            label: Text("Passanger Name"),
+                            label: Text("NIK"),
                           ),
                           keyboardType: TextInputType.number,
+                          onChanged: (value) {
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        width: 300,
+                        height: 60,
+                        child: TextField(
+                          controller: telpCtrs[index],
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            // icon: Icon(Icons.people),
+                            label: Text("Telepon"),
+                          ),
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) {
+                            setState(() {});
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        width: 300,
+                        height: 60,
+                        child: TextField(
+                          controller: nameCtrs[index],
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            // icon: Icon(Icons.people),
+                            label: Text("Name"),
+                          ),
                           onChanged: (value) {
                             setState(() {});
                           },
@@ -128,10 +205,10 @@ class PassangerFormState extends State<PassangerForm> {
                           height: 10,
                         ),
                         Row(
-                          children: const [
+                          children: [
                             Text(
-                              "Jakarta",
-                              style: TextStyle(
+                              widget.searchScheadule.fromAirport,
+                              style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -141,8 +218,8 @@ class PassangerFormState extends State<PassangerForm> {
                               size: 9,
                             ),
                             Text(
-                              "Bangkok",
-                              style: TextStyle(
+                              widget.searchScheadule.toAirport,
+                              style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -157,23 +234,7 @@ class PassangerFormState extends State<PassangerForm> {
                               height: 30,
                             ),
                             Text(
-                              "Friday, 30 December 2022",
-                              style: TextStyle(
-                                fontSize: 12,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Icon(
-                              Icons.star,
-                              size: 5,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "14:00",
+                              "${day}, $tanggal $bulan $tahun",
                               style: TextStyle(
                                 fontSize: 12,
                               ),
@@ -195,7 +256,9 @@ class PassangerFormState extends State<PassangerForm> {
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(mainColor),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        _handleToPayment();
+                      },
                       child: const Text(
                         "Continue to Payment",
                         style: TextStyle(
@@ -208,6 +271,34 @@ class PassangerFormState extends State<PassangerForm> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  void _handleToPayment() {
+    List<Map<String, Map<String, String>>> biodataList =
+        <Map<String, Map<String, String>>>[];
+    for (var i = 0; i < widget.searchScheadule.passanger; i++) {
+      biodataList.add(<String, Map<String, String>>{
+        "body": <String, String>{
+          "nik": nikCtrs[i].text,
+          "telp": telpCtrs[i].text,
+          "name": nameCtrs[i].text,
+        }
+      });
+    }
+    Transaction transaction = Transaction(5, [widget.scheduleId],
+        widget.searchScheadule.passanger, 0, false, biodataList);
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        // builder: (context) => Payment(),
+        builder: (context) => Payment(
+          transaction: transaction,
+          searchSchedule: widget.searchScheadule,
+          cost: widget.cost,
         ),
       ),
     );
