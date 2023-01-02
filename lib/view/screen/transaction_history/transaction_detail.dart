@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flyket/model/apis/user.dart';
 import 'package:flyket/model/transaction_history/transaction_history.dart';
+import 'package:flyket/view/screen/user_notification/user_notification.dart';
 import 'package:flyket/view/utils/date_format.dart';
 import 'package:flyket/view/utils/currency_format.dart';
+import 'package:flyket/viewmodel/user_viewmodel.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -85,6 +89,11 @@ class _TransactionHistoryDetailState extends State<TransactionHistoryDetail> {
   Widget build(BuildContext context) {
     // PAKE LIST VIEW BUILDER
 
+    var uvm = context.read<UserViewModel>();
+
+    // get logged in user data from provider
+    User loggedInUser = uvm.user;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mainColor,
@@ -116,7 +125,14 @@ class _TransactionHistoryDetailState extends State<TransactionHistoryDetail> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, "/notifications");
+                      // Navigator.pushNamed(context, "/notifications");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              UserNotification(user: loggedInUser),
+                        ),
+                      );
                     },
                     icon: const Icon(
                       Icons.notifications,

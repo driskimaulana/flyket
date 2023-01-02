@@ -4,6 +4,7 @@ import 'package:flyket/model/schedule/search_scheadule.dart';
 import 'package:flyket/model/transactions/passanger.dart';
 import 'package:flyket/model/transactions/transanction.dart';
 import 'package:flyket/view/screen/payment/payment.dart';
+import 'package:flyket/view/screen/user_notification/user_notification.dart';
 import 'package:flyket/viewmodel/user_viewmodel.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -85,7 +86,14 @@ class PassangerFormState extends State<PassangerForm> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, "/notifications");
+                      // Navigator.pushNamed(context, "/notifications");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              UserNotification(user: loggedInUser),
+                        ),
+                      );
                     },
                     icon: const Icon(
                       Icons.notifications,

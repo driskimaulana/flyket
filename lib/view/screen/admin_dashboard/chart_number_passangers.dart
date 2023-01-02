@@ -4,7 +4,16 @@ class ChartPassenger extends CustomPainter {
   double posX = 0;
   double posY = 0;
 
-  ChartPassenger({required this.posX, required this.posY});
+  int gtop, gleft, gbottom, gright;
+
+  ChartPassenger({
+    required this.posX,
+    required this.posY,
+    required this.gtop,
+    required this.gleft,
+    required this.gbottom,
+    required this.gright,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -37,10 +46,10 @@ class ChartPassenger extends CustomPainter {
 
     double left, top, right, bottom;
 
-    left = 0.2;
-    top = 0.8;
-    right = 0.9;
-    bottom = 0.9;
+    left = 1 - (gleft / 100);
+    top = 0.75 - (gtop / 100) / 2;
+    right = 0.5 + (gright / 100) / 2;
+    bottom = 0.5 + (gbottom / 100) / 2;
 
     Path pathCircle = Path()
       ..moveTo(size.width / 2 * left, size.height / 2)

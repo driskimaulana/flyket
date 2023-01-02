@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flyket/model/apis/user.dart';
 import 'package:flyket/view/screen/home/home_screen.dart';
 import 'package:flyket/view/screen/transaction_history/transaction_history.dart';
+import 'package:flyket/view/screen/user_notification/user_notification.dart';
 import 'package:flyket/view/screen/user_profile/user_profile.dart';
+import 'package:provider/provider.dart';
+
+import '../../viewmodel/user_viewmodel.dart';
 
 class MainNavigation extends StatefulWidget {
   int index;
@@ -29,6 +34,11 @@ class _MainNavigationState extends State<MainNavigation> {
       TransactionHistory(),
       UserProfile(),
     ];
+
+    var uvm = context.read<UserViewModel>();
+
+    // get logged in user data from provider
+    User loggedInUser = uvm.user;
 
     return Scaffold(
       appBar: AppBar(
@@ -61,7 +71,14 @@ class _MainNavigationState extends State<MainNavigation> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, "/notifications");
+                      // Navigator.pushNamed(context, "/notifications");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              UserNotification(user: loggedInUser),
+                        ),
+                      );
                     },
                     icon: const Icon(
                       Icons.notifications,

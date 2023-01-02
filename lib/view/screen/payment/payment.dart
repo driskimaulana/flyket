@@ -7,6 +7,7 @@ import 'package:flyket/model/apis/user.dart';
 import 'package:flyket/model/schedule/search_scheadule.dart';
 import 'package:flyket/model/transactions/transanction.dart';
 import 'package:flyket/view/screen/main_navigation.dart';
+import 'package:flyket/view/screen/user_notification/user_notification.dart';
 import 'package:flyket/viewmodel/transaction_viewmodel.dart';
 import 'package:flyket/viewmodel/user_viewmodel.dart';
 import 'package:intl/intl.dart';
@@ -82,7 +83,14 @@ class _PaymentState extends State<Payment> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, "/notifications");
+                      // Navigator.pushNamed(context, "/notifications");
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              UserNotification(user: loggedInUser),
+                        ),
+                      );
                     },
                     icon: const Icon(
                       Icons.notifications,

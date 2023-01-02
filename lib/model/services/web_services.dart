@@ -253,4 +253,23 @@ class WebServices {
       throw Exception("Failed get data");
     }
   }
+
+  Future<List<Summary>> fetchSummary(String token) async {
+    final url = Uri.parse("$BASE_URL/summary/country");
+    final Response response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token,
+      },
+    );
+
+    if (response.statusCode == 200) {
+      var body = jsonDecode(response.body);
+      final Iterable json = body["data"];
+      return json.map((e) => Summary.fromJson(e)).toList();
+    } else {
+      throw Exception("Unable to get data.");
+    }
+  }
 }

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flyket/model/apis/user.dart';
 import 'package:flyket/model/user_notification/user_notification.dart';
 import 'package:flyket/view/utils/date_format.dart';
+import 'package:flyket/viewmodel/user_viewmodel.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserNotification extends StatefulWidget {
-  const UserNotification({super.key});
+  User user;
+  UserNotification({super.key, required this.user});
 
   @override
   State<UserNotification> createState() => _UserNotificationState();
@@ -18,7 +23,7 @@ class _UserNotificationState extends State<UserNotification> {
   @override
   void initState() {
     super.initState();
-    UserNotificationObj.getUserNotifications().then((values) {
+    UserNotificationObj.getUserNotifications(widget.user.token).then((values) {
       userNotifications = values;
       setState(() {});
     });
@@ -117,14 +122,18 @@ class _UserNotificationState extends State<UserNotification> {
                   children: [
                     Text(
                       "Unread First",
-                      style: TextStyle(fontSize: 10, color: Colors.black54),
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Colors.black54,
+                      ),
                     ),
                     GestureDetector(
                         onTap: () {
                           UserNotificationObj.readAllNotifications()
                               .then((value) {
                             if (value == true) {
-                              UserNotificationObj.getUserNotifications()
+                              UserNotificationObj.getUserNotifications(
+                                      widget.user.token)
                                   .then((values) {
                                 userNotifications = values;
                               });
