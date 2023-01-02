@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flyket/viewmodel/authentication_viewmodel.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -275,6 +276,13 @@ class _RegisterPageState extends State<RegisterPage> {
     if (isRegisterSuccess) {
       Navigator.of(context, rootNavigator: true)
           .pushNamedAndRemoveUntil("/login", (route) => false);
+    } else {
+      Fluttertoast.showToast(
+        msg: "Register Failed. Try again later.",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        backgroundColor: Colors.cyan,
+      );
     }
 
     setState(() {

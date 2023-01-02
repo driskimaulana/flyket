@@ -11,6 +11,7 @@ import 'package:flyket/view/screen/passanger_form/passanger_form.dart';
 import 'package:flyket/view/screen/register/register.dart';
 import 'package:flyket/view/screen/splashScreen/splash_screen.dart';
 import 'package:flyket/viewmodel/airport_viewmodel.dart';
+import 'package:flyket/viewmodel/user_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flyket/view/screen/user_notification/user_notification.dart';
@@ -24,6 +25,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AirportListViewModel()),
+        ChangeNotifierProvider(create: (context) => UserViewModel()),
       ],
       child: const MyApp(),
     ),
@@ -50,9 +52,13 @@ class MyApp extends StatelessWidget {
         "/homeScreen": (context) => MainNavigation(
               index: 0,
             ),
+        "/homeScreen2": (context) => MainNavigation(
+              index: 1,
+            ),
         "/transactionHistory": (context) => TransactionHistory(),
         "/transactionHistoryDetail": (context) => TransactionHistoryDetail(),
         "/notifications": (context) => UserNotification(),
+        "/dashboardAdmin": (context) => AdminDashboard(),
       },
       initialRoute: "/",
     );

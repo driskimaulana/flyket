@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flyket/view/screen/main_navigation.dart';
 import 'package:flyket/view/screen/onboarding/Onboarding.dart';
 import 'package:flyket/viewmodel/airport_viewmodel.dart';
+import 'package:flyket/viewmodel/user_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,6 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final preferences = await SharedPreferences.getInstance();
     final token = preferences.getString("token");
     if (token != null) {
+      Provider.of<UserViewModel>(context, listen: false).whoAmI(token);
       setState(() {
         isLoggedin = true;
       });
