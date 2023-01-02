@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flyket/model/schedule/flight.dart';
+import 'package:flyket/model/schedule/schedule.dart';
 import 'package:flyket/model/schedule/search_scheadule.dart';
 import 'package:flyket/view/screen/payment/payment.dart';
+import 'package:flyket/viewmodel/schedules_viewmodel.dart';
 import 'package:intl/intl.dart';
 
 class ChooseSchedule extends StatefulWidget {
@@ -35,6 +39,27 @@ class _ChooseScheduleState extends State<ChooseSchedule> {
   ];
 
   Flight? flight;
+
+  late List<ScheduleViewModel> schedules;
+
+  void fetchScheduleList() async {
+    final results = await ScheduleListViewModel().fetchScheduleList(widget.searchFlight.departureDate, widget.searchFlight.fromId, widget.searchFlight.toId, widget.searchFlight.passanger);
+    setState(() {
+      schedules = results;
+    });
+
+    log("schedules: ${schedules[0].code}");
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    fetchScheduleList();
+
+    // log("code: ${schedules[0].code}");
+  }
 
   @override
   Widget build(BuildContext context) {
