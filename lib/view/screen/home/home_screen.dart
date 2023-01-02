@@ -46,10 +46,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var lvm = context.read<AirportListViewModel>();
-
     // get list of airport name
-    List<dynamic> cities =
-        lvm.airports.map((e) => "${e.citi} - ${e.name}").toList();
+    List<dynamic> cities = lvm.airports
+        .map((e) => "${e.citi} | ${e.name} | ${e.code} | ${e.id.toString()}")
+        .toList();
 
     // get list of airport id
     List<dynamic> ids = lvm.airports.map(((e) => e.id)).toList();
@@ -57,52 +57,6 @@ class _HomeScreenState extends State<HomeScreen> {
     log("lvm: " + lvm.airports.length.toString());
 
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: mainColor,
-      //   title: Container(
-      //     child: Row(
-      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //       children: [
-      //         Row(
-      //           children: [
-      //             Image.asset(
-      //               "assets/images/logo.png",
-      //               height: 30,
-      //             ),
-      //             const SizedBox(
-      //               width: 10,
-      //             ),
-      //             const Text(
-      //               "Flyket",
-      //               style: TextStyle(
-      //                 color: Colors.white,
-      //               ),
-      //             ),
-      //           ],
-      //         ),
-      //         Row(
-      //           children: [
-      //             const Icon(
-      //               Icons.notifications,
-      //               color: Colors.white,
-      //             ),
-      //             const SizedBox(
-      //               width: 10,
-      //             ),
-      //             CircleAvatar(
-      //               backgroundColor: Colors.transparent,
-      //               child: Image.asset(
-      //                 "assets/images/profile.png",
-      //                 width: 30,
-      //                 height: 30,
-      //               ),
-      //             ),
-      //           ],
-      //         )
-      //       ],
-      //     ),
-      //   ),
-      // ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -276,26 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
               width: 300,
               height: 40,
               child: ElevatedButton(
-                onPressed: () {
-                  var arr = toCtr.text.split("|");
-                  log("toctr: " + arr.toString());
-                  log("noPass: " + noPassanger.toString());
-                  SearchScheadule search = SearchScheadule(
-                    fromAirport: fromCtr.text,
-                    toAirport: toCtr.text,
-                    fromAirportCode: "BMH",
-                    toAirportCode: "JKT",
-                    passanger: noPassanger,
-                    seatClass: seatClassSelected,
-                    departureDate: dateCtr.text,
-                  );
-
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              ChooseSchedule(searchFlight: search)));
-                },
+                onPressed: _handleSearch,
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(mainColor),
                 ),
@@ -310,6 +245,31 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _handleSearch() {
+    var to = toCtr.text.split("|");
+    var from = fromCtr.text.split("|");
+    log("to id: " + to.toString());
+    log("from id: " + from[1].toString());
+    SearchScheadule search = SearchScheadule(
+      fromAirport: from[1],
+      toAirport: to[1],
+      fromId: int.parse(from[3]),
+      toId: int.parse(to[3]),
+      seatClass: seatClassSelected,
+      departureDate: dateCtr.text,
+      fromAirportCode: from[2],
+      toAirportCode: to[2],
+      passanger: noPassanger,
+    );
+    log("search: ${search.fromAirport.toString()}");
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChooseSchedule(searchSchedule: search),
       ),
     );
   }

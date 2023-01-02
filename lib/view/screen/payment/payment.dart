@@ -1,8 +1,22 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flyket/model/schedule/search_scheadule.dart';
+import 'package:flyket/model/transactions/transanction.dart';
 import 'package:flyket/view/screen/main_navigation.dart';
+import 'package:flyket/viewmodel/transaction_viewmodel.dart';
+import 'package:intl/intl.dart';
 
 class Payment extends StatefulWidget {
-  const Payment({super.key});
+  Transaction transaction;
+  SearchScheadule searchSchedule;
+  int cost;
+  Payment(
+      {super.key,
+      required this.transaction,
+      required this.searchSchedule,
+      required this.cost});
 
   @override
   State<Payment> createState() => _PaymentState();
@@ -22,6 +36,11 @@ class _PaymentState extends State<Payment> {
 
   @override
   Widget build(BuildContext context) {
+    var date = DateTime.parse(widget.searchSchedule.departureDate);
+    String day = DateFormat("EEEE").format(date);
+    String tanggal = DateFormat("d").format(date);
+    String bulan = DateFormat("MMMM").format(date);
+    String tahun = DateFormat("y").format(date);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: mainColor,
@@ -147,40 +166,33 @@ class _PaymentState extends State<Payment> {
             Padding(
               padding: const EdgeInsets.all(10),
               child: Card(
+                elevation: 5,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.only(
-                              left: 10,
-                            ),
-                            child: Text(
-                              "Penerbangan",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          Text(
+                            "Penerbangan",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const SizedBox(
+                          SizedBox(
                             height: 10,
                           ),
                           Row(
-                            children: const [
-                              SizedBox(
-                                width: 10,
-                              ),
+                            children: [
                               Text(
-                                "Jakarta",
-                                style: TextStyle(
+                                widget.searchSchedule.fromAirport,
+                                style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -190,8 +202,8 @@ class _PaymentState extends State<Payment> {
                                 size: 9,
                               ),
                               Text(
-                                "Bangkok",
-                                style: TextStyle(
+                                widget.searchSchedule.toAirport,
+                                style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -206,23 +218,7 @@ class _PaymentState extends State<Payment> {
                                 height: 30,
                               ),
                               Text(
-                                "Friday, 30 December 2022",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Icon(
-                                Icons.star,
-                                size: 5,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "14:00",
+                                "${day}, $tanggal $bulan $tahun",
                                 style: TextStyle(
                                   fontSize: 12,
                                 ),
@@ -232,36 +228,49 @@ class _PaymentState extends State<Payment> {
                         ],
                       ),
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.payment,
+                          size: 14,
+                          color: Color.fromARGB(255, 176, 26, 15),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Rp ${(widget.searchSchedule.passanger * widget.cost).toString()}",
+                          style: const TextStyle(
+                            fontSize: 20,
+                            color: Color.fromARGB(255, 176, 26, 15),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Divider(
+                      height: 1,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     SizedBox(
-                      width: 300,
+                      width: MediaQuery.of(context).size.width,
                       child: ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all(mainColor),
                         ),
                         onPressed: () {
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MainNavigation(index: 1),
-                              ),
-                              (route) => false);
-                          // Navigator.pushAndRemoveUntil(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => MainNavigation(index: 1),
-                          //   ),
-                          // );
+                          _handlePay();
                         },
                         child: const Text(
-                          "Submit",
+                          "Pay",
                           style: TextStyle(
                             color: Colors.white,
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
                     ),
                   ],
                 ),
@@ -271,5 +280,26 @@ class _PaymentState extends State<Payment> {
         ),
       ),
     );
+  }
+
+  void _handlePay() async {
+    log(widget.transaction.biodataList.toString());
+    final isSuccess =
+        await TransactionViewModel().createTransaction(widget.transaction);
+    if (isSuccess) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          // builder: (context) => Payment(),
+          builder: (context) => MainNavigation(index: 1),
+        ),
+      );
+    } else {
+      Fluttertoast.showToast(
+          msg: "Failed to Pay",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          backgroundColor: Colors.cyan);
+    }
   }
 }

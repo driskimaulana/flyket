@@ -29,65 +29,8 @@ class _TransactionHistoryState extends State<TransactionHistory> {
 
   @override
   Widget build(BuildContext context) {
-    // PAKE LIST VIEW BUILDER
 
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: mainColor,
-      //   title: Container(
-      //     child: Row(
-      //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //       children: [
-      //         Row(
-      //           children: [
-      //             Image.asset(
-      //               "assets/images/logo.png",
-      //               height: 30,
-      //             ),
-      //             const SizedBox(
-      //               width: 10,
-      //             ),
-      //             const Text(
-      //               "FlyTicket",
-      //               style: TextStyle(
-      //                 color: Colors.white,
-      //               ),
-      //             )
-      //           ],
-      //         ),
-      //         Row(
-      //           children: [
-      //             IconButton(
-      //               onPressed: (() {
-      //                 print("Open notification");
-      //               }),
-      //               icon: const Icon(
-      //                 Icons.notifications,
-      //                 color: Colors.white,
-      //               ),
-      //             ),
-      //             const SizedBox(
-      //               width: 10,
-      //             ),
-      //             GestureDetector(
-      //               child: CircleAvatar(
-      //                 backgroundColor: Colors.transparent,
-      //                 child: Image.asset(
-      //                   "assets/images/profile.png",
-      //                   width: 30,
-      //                   height: 30,
-      //                 ),
-      //               ),
-      //               onTap: () {
-      //                 print("Open profile");
-      //               },
-      //             ),
-      //           ],
-      //         )
-      //       ],
-      //     ),
-      //   ),
-      // ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

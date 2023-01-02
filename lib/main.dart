@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flyket/model/schedule/search_scheadule.dart';
+import 'package:flyket/view/screen/admin_dashboard/admin_dashboard.dart';
 import 'package:flyket/view/screen/choose_schedule/choose_schedule.dart';
 import 'package:flyket/view/screen/home/home_screen.dart';
 import 'package:flyket/view/screen/login/login.dart';
@@ -19,12 +20,14 @@ import 'package:flyket/view/screen/transaction_history/transaction_history.dart'
 import 'package:flyket/view/screen/transaction_history/transaction_detail.dart';
 
 void main() {
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (context) => AirportListViewModel()),
-    ],
-    child: const MyApp(),
-  ));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => AirportListViewModel()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flyket/model/apis/user.dart';
 import 'package:flyket/viewmodel/authentication_viewmodel.dart';
 import 'package:flyket/viewmodel/login_viewmodel.dart';
@@ -250,6 +251,11 @@ class _LoginPageState extends State<LoginPage> {
       Navigator.of(context, rootNavigator: true)
           .pushNamedAndRemoveUntil("/homeScreen", (route) => false);
     } else {
+      Fluttertoast.showToast(
+          msg: "Login Failed. Try again later!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          backgroundColor: Colors.cyan);
       log("LOGIN FAILED");
     }
     setState(() {
