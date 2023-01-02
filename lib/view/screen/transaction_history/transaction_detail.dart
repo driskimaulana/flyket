@@ -3,6 +3,7 @@ import 'package:flyket/model/transaction_history/transaction_history.dart';
 import 'package:flyket/view/utils/date_format.dart';
 import 'package:flyket/view/utils/currency_format.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TransactionHistoryDetail extends StatefulWidget {
   const TransactionHistoryDetail({super.key});
@@ -351,10 +352,17 @@ class _TransactionHistoryDetailState extends State<TransactionHistoryDetail> {
                                   : 'Active'),
                               style: TextStyle(color: secondColor),
                             ),
-                            Text("Download Ticket",
-                                style: TextStyle(
-                                  color: mainColor,
-                                ))
+                            InkWell(
+                              onTap: () {
+                                var url =
+                                    transaction.tickets[index]['ticket_pdf'];
+                                launchURL(url);
+                              },
+                              child: Text("Download Ticket",
+                                  style: TextStyle(
+                                    color: mainColor,
+                                  )),
+                            ),
                           ],
                         ),
                       ),
@@ -367,5 +375,14 @@ class _TransactionHistoryDetailState extends State<TransactionHistoryDetail> {
         ),
       ),
     );
+  }
+
+  void launchURL(String urlStr) async {
+    Uri url = Uri.parse(urlStr);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      throw "Couldn't launch $url";
+    }
   }
 }
