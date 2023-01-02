@@ -17,6 +17,7 @@ import 'package:flyket/view/screen/user_notification/user_notification.dart';
 import 'package:flyket/view/screen/passanger_form/passanger_form.dart';
 
 import 'package:flyket/view/screen/transaction_history/transaction_history.dart';
+import 'package:flyket/view/screen/transaction_history/transaction_detail.dart';
 
 void main() {
   runApp(
@@ -42,7 +43,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.cyan,
       ),
       routes: {
-        "/": (context) => SplashScreen(),
+        // "/": (context) => SplashScreen(),
+        "/": (context) => TransactionHistoryDetail(),
         "/onboarding": (context) => Onboarding(),
         "/login": (context) => LoginPage(),
         "/register": (context) => RegisterPage(),

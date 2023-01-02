@@ -19,7 +19,7 @@ class _TransactionHistoryState extends State<TransactionHistory> {
   @override
   void initState() {
     super.initState();
-    TransactionHistoryObj.getTransactions().then((values) {
+    TransactionHistoryObj.getAllTransactions().then((values) {
       transactions = values;
       setState(() {});
     });
